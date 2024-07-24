@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroView</title>
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/23.1.2/tween.umd.js" 
+        integrity="sha512-tVgTGDCgmeSNyNQn+QS+htn5AvnZc3tnER7GFo3ylfohYZKlottjyG2ryA4z2c1HV2Q7+MM3aN2A9abItyPpuA==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer">
+    </script>
+</head>
+<body>
+    <div class="loader" id="loader">
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+    </div>
+    <div class="logo">
+        <img src="img/logo.png" alt="AstroView">
+    </div>
+    <div class="barra-velocita">
+        Velocità
+        <input type="range" class="speed-control" min=".0001" max="500" value="100" step="1">
+    </div>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
