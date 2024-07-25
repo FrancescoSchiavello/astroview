@@ -1,7 +1,6 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js';
 import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls.js';
 
-// Dimensioni e posizioni iniziali dei pianeti
 const planetsData = [
     {
         name: 'sun', 
@@ -9,7 +8,16 @@ const planetsData = [
         width: 8, 
         rotationSpeed: 0.00025, 
         orbitSpeed: 0,
-        position: { x: 0, y: 0, z: 0 }
+        position: { x: 0, y: 0, z: 0 },
+        data: {
+                nome: "Sole",
+                foto: "img_info/sun.jpg",
+                distanza: "--",
+                diametro: "1,392,700 km",
+                massa: "1.989 x 10^30 kg",
+                info: "Il Sole è la stella al centro del nostro sistema solare. È una sfera quasi perfetta di plasma incandescente.",
+                curiosita: "Il Sole contiene il 99.86% della massa totale del sistema solare."
+              }
     },
     {
         name: 'mercury', 
@@ -17,7 +25,16 @@ const planetsData = [
         width: 1, 
         rotationSpeed: 0.000024, 
         orbitSpeed: 0.000408, 
-        position: { x: 16, y: 0, z: 0 }
+        position: { x: 16, y: 0, z: 0 },
+        data: {
+                nome: "Mercurio",
+                foto: "img_info/mercury.jpg",
+                distanza: "57.91 milioni di km dal Sole",
+                diametro: "4,880 km",
+                massa: "3.285 x 10^23 kg",
+                info: "Mercurio è il pianeta più vicino al Sole e il più piccolo del sistema solare.",
+                curiosita: "Mercurio ha il giorno più lungo di qualsiasi altro pianeta del sistema solare, con un giorno che dura circa 176 giorni terrestri."
+              }
     },
     {
         name: 'venus', 
@@ -25,7 +42,16 @@ const planetsData = [
         width: 2, 
         rotationSpeed: -0.00000148, 
         orbitSpeed: 0.000163, 
-        position: { x: 16, y: 0, z: 0 }
+        position: { x: 16, y: 0, z: 0 },
+        data: {
+                nome: "Venere",
+                foto: "img_info/venus.jpg",
+                distanza: "108.2 milioni di km dal Sole",
+                diametro: "12,104 km",
+                massa: "4.867 x 10^24 kg",
+                info: "Venere è il secondo pianeta dal Sole ed è simile alla Terra per dimensioni e composizione.",
+                curiosita: "Venere ruota all'indietro rispetto alla maggior parte degli altri pianeti del sistema solare."
+              }
     },
     {
         name: 'earth', 
@@ -33,7 +59,16 @@ const planetsData = [
         width: 2, 
         rotationSpeed: 0.000694, 
         orbitSpeed: 0.0000995, 
-        position: { x: 16, y: 0, z: 0 }
+        position: { x: 16, y: 0, z: 0 },
+        data: {
+                nome: "Terra",
+                foto: "img_info/earth.jpg",
+                distanza: "149.6 milioni di km dal Sole",
+                diametro: "12,742 km",
+                massa: "5.972 x 10^24 kg",
+                info: "La Terra è il terzo pianeta dal Sole e l'unico conosciuto per ospitare la vita.",
+                curiosita: "Circa il 71% della superficie terrestre è coperta da acqua."
+              }
     },
     {
         name: 'mars', 
@@ -41,7 +76,16 @@ const planetsData = [
         width: 2, 
         rotationSpeed: 0.000707, 
         orbitSpeed: 0.0000538, 
-        position: { x: 16, y: 0, z: 0 }
+        position: { x: 16, y: 0, z: 0 },
+        data: {
+                nome: "Marte",
+                foto: "img_info/mars.jpg",
+                distanza: "227.9 milioni di km dal Sole",
+                diametro: "6,779 km",
+                massa: "6.39 x 10^23 kg",
+                info: "Marte è il quarto pianeta dal Sole e è noto come il pianeta rosso per il suo colore caratteristico.",
+                curiosita: "Marte ha la montagna più alta del sistema solare, il Monte Olimpo, alto circa 22 km."
+              }
     },
     {
         name: 'jupiter', 
@@ -49,37 +93,73 @@ const planetsData = [
         width: 6, 
         rotationSpeed: 0.00241, 
         orbitSpeed: 0.00000823, 
-        position: { x: 18, y: 0, z: 0 }
+        position: { x: 18, y: 0, z: 0 },
+        data: {
+                nome: "Giove",
+                foto: "img_info/jupiter.jpg",
+                distanza: "778.5 milioni di km dal Sole",
+                diametro: "139,820 km",
+                massa: "1.898 x 10^27 kg",
+                info: "Giove è il pianeta più grande del sistema solare e il quinto dal Sole.",
+                curiosita: "Giove ha almeno 79 lune, inclusa Ganimede, la più grande luna del sistema solare."
+              }
     },
     {
         name: 'saturn', 
         texture: 'img/saturn.jpg', 
         width: 4, 
-        rotationSpeed: 0.00226, // 10.7 ore terrestri per una rotazione
-        orbitSpeed: 0.00000339, // 10759 giorni terrestri per un'orbita
+        rotationSpeed: 0.00226,
+        orbitSpeed: 0.00000339,
         position: { x: 20, y: 0, z: 0 }, 
         rotation: THREE.MathUtils.degToRad(26.73),
-        rings: 'img/saturn_ring.png'
+        rings: 'img/saturn_ring.png',
+        data: {
+                nome: "Saturno",
+                foto: "img_info/saturn.jpg",
+                distanza: "1.434 miliardi di km dal Sole",
+                diametro: "116,460 km",
+                massa: "5.683 x 10^26 kg",
+                info: "Saturno è il sesto pianeta dal Sole e il secondo più grande del sistema solare.",
+                curiosita: "Saturno è noto per i suoi anelli estesi e complessi fatti principalmente di ghiaccio e polvere."
+              }
     },
     {
         name: 'uranus', 
         texture: 'img/uranus.jpg', 
         width: 4, 
-        rotationSpeed: -0.00165, // 17.2 ore terrestri per una rotazione
-        orbitSpeed: 0.00000119, // 30687 giorni terrestri per un'orbita
+        rotationSpeed: -0.00165,
+        orbitSpeed: 0.00000119,
         position: { x: 22, y: 0, z: 0 }, 
         rotation: THREE.MathUtils.degToRad(97.77),
-        rings: 'img/uranus_ring.png'
+        rings: 'img/uranus_ring.png',
+        data: {
+                nome: "Urano",
+                foto: "img_info/uranus.jpg",
+                distanza: "2.871 miliardi di km dal Sole",
+                diametro: "50,724 km",
+                massa: "8.681 x 10^25 kg",
+                info: "Urano è il settimo pianeta dal Sole ed è noto per la sua inclinazione assiale estrema.",
+                curiosita: "Urano ruota su un fianco, con un'inclinazione assiale di 97.77 gradi rispetto al piano della sua orbita."
+              }
     },
     {
         name: 'neptune', 
         texture: 'img/neptune.jpg', 
         width: 4, 
-        rotationSpeed: 0.00162, // 16.1 ore terrestri per una rotazione
-        orbitSpeed: 0.00000060, // 60190 giorni terrestri per un'orbita
+        rotationSpeed: 0.00162,
+        orbitSpeed: 0.00000060,
         position: { x: 22, y: 0, z: 0 }, 
         rotation: THREE.MathUtils.degToRad(28.32) ,
-        rings: 'img/uranus_ring.png'
+        rings: 'img/uranus_ring.png',
+        data: {
+                nome: "Nettuno",
+                foto: "img_info/neptune.jpg",
+                distanza: "4.495 miliardi di km dal Sole",
+                diametro: "49,244 km",
+                massa: "1.024 x 10^26 kg",
+                info: "Nettuno è l'ottavo pianeta dal Sole ed è noto per i suoi venti estremamente forti.",
+                curiosita: "Nettuno è l'unico pianeta del sistema solare non visibile ad occhio nudo."
+              }
     },
     {
         name: 'pluto', 
@@ -87,7 +167,16 @@ const planetsData = [
         width: 2, 
         rotationSpeed: 0.000153, 
         orbitSpeed: 0.00000041, 
-        position: { x: 22, y: 0, z: 0 }
+        position: { x: 22, y: 0, z: 0 },
+        data: {
+                nome: "Plutone",
+                foto: "img_info/pluto.jpg",
+                distanza: "5.906 miliardi di km dal Sole",
+                diametro: "2,377 km",
+                massa: "1.309 x 10^22 kg",
+                info: "Plutone è un pianeta nano nel sistema solare, un tempo considerato il nono pianeta.",
+                curiosita: "Plutone ha cinque lune conosciute, la più grande delle quali è Caronte."
+              }
     }
 ];
 
@@ -99,11 +188,19 @@ const moonsData = [
         rotationSpeed: 0.00027,
         orbitSpeed: 0.00027,
         parent: 'earth',
-        position: { x: 5, y: 0, z: 0 }
+        position: { x: 5, y: 0, z: 0 },
+        data: {
+                nome: "Luna",
+                foto: "img_info/moon.jpg",
+                distanza: "384,400 km dalla Terra",
+                massa: "7.342 x 10^22 kg",
+                info: "La Luna è l'unico satellite naturale della Terra ed è il quinto satellite naturale più grande del sistema solare.",
+                curiosita: "La Luna ha un'influenza significativa sulle maree terrestri a causa della sua forza gravitazionale."
+              }
     }
 ];
 
-// Inizializzazione caricatore di texture
+
 const textureLoader = new THREE.TextureLoader();
 
 // Variabile per tenere traccia delle texture caricate
@@ -391,7 +488,16 @@ function onMouseClick(event) {
             });
 
             speedController.value = 0;
+     
+            document.querySelector(".info-pianeta .nome").textContent = target.data.nome;
+            document.querySelector(".info-pianeta .distanza").textContent = `Distanza: ${target.data.distanza}`;
+            document.querySelector(".info-pianeta .diametro").textContent = `Diametro: ${target.data.diametro || '--'}`;
+            document.querySelector(".info-pianeta .massa").textContent = `Massa: ${target.data.massa}`;
+            document.querySelector(".info-pianeta .img-pianeta").style.backgroundImage = `url(${target.data.foto})`;
+            document.querySelector(".info-pianeta .info .titolo").nextSibling.textContent = target.data.info;
+            document.querySelector(".info-pianeta .curiosita .titolo").nextSibling.textContent = target.data.curiosita;
 
+            document.querySelector(".info-pianeta").classList.add("expanded");
         }
     }
 }
