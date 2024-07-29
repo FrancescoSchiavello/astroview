@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AstroView</title>
-    <link rel="icon" href="img/logo.png" type="image/png">
+    <link rel="icon" href="img/logo.ico" type="image/png">
     <link rel="stylesheet" href="style.css">
     <script 
         src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/23.1.2/tween.umd.js" 
@@ -23,14 +23,22 @@
         <div class="loader-square"></div>
         <div class="loader-square"></div>
     </div>
-    <div class="logo">
-        <img src="img/logo2.png" alt="AstroView">
-    </div>
+    <div class="header">
+        <div class="logo">
+            <img src="img/logo.png" alt="AstroView">
+        </div>
+        <div class="bottoni">
+            <div class="accedi">Accedi</div>
+            <div class="registrati">Registrati</div>
+            <div class="bottone-profilo hidden">Profilo</div>
+        </div>
+    </div> 
     <div class="barra-velocita">
         Velocità
-        <input type="range" class="speed-control" min=".0001" max="500" value="100" step="1">
+        <input type="range" class="speed-control" min="0" max="500" value="100" step="1">
     </div>
-    <div class="info-pianeta">
+    <div class="container-info-pianeta">
+                <div class="info-pianeta">
         <div class="header-sezione">
             <div class="nome-dati">
                 <div class="nome"></div>
@@ -42,6 +50,9 @@
             </div>
             <div class="img-pianeta"></div>
         </div>
+        <div class="bottone-chiudi">
+            <img src="img/quit-icon.png" alt="chiudi">
+        </div>
         <div class="paragrafi">   
             <div class="info">
                 <div class="titolo">Informazioni:</div>
@@ -52,6 +63,59 @@
                 <div class="contenuto-curiosita"></div>
             </div>
         </div>
+    </div>
+    </div>
+
+    <div class="main-content">
+        <div class="bottone-chiudi">
+            <img src="img/quit-icon.png" alt="chiudi">
+        </div>
+        <div class="login">
+            <div class="titolo">Accedi</div>
+            <p class="error"></p>
+            <form class="form-login" action="/login" method="post">
+                <input type="email" placeholder="Email..." name="email" required><br>
+                <input type="password" placeholder="Password..." name="password" required><br>
+                <input type="submit" class="bottone-invio" value="Fatto">
+            </form>
+            <div class="link-form">Non hai un account?</div>
+        </div>
+        <div class="registrazione">
+            <div class="titolo">Registrati</div>
+            <p class="error"></p>
+            <form class="form-registrazione" action="/regitrazione" method="post">
+                <input type="text" placeholder="Nome..." name="nome" required><br>
+                <input type="text" placeholder="Cognome..." name="cognome" required><br>
+                <input type="text" placeholder="Nome utente..." name="nome_utente" required><br>
+                <input type="email" placeholder="Email..." name="email" required><br>
+                <input type="password" placeholder="Password..." name="password_utente" required><br>
+                <input type="submit" class="bottone-invio" value="Fatto">
+            </form>
+            <div class="link-form">Hai già un account?</div>
+        </div>
+        <div class="container-sezioni">
+            <div class="schede">
+                <div class="profilo active">Profilo</div>
+                <div class="quiz">Quiz</div>
+                <div class="classifica">Classifica</div>
+            </div>
+            <div class="contenuto-scheda">
+                <div class="sezione-profilo active">profilo</div>
+                <div class="sezione-quiz">quiz</div>
+                <div class="sezione-classifica">classifica</div>
+            </div>
+        </div>
+    </div>
+    <div class="help">
+            <p>
+                Usa il mouse o trascina un dito sullo schermo per muovere la visuale.<br><br>
+                Usa lo scroll o due dita per ingrandire o rimpicciolire la visuale.<br><br>
+                Puoi cliccare su qualunque corpo celeste per ottenere le relative informazioni.<br><br>
+                Effettua l'accesso per testare la tua conoscenza sul sistema solare e per competere con gli altri utenti.
+            </p>
+            <div class="close-arrow">
+                <img src="img/arrow_white.png" class="arrow-img">
+            </div>
     </div>
     <script type="module" src="script.js"></script>
 </body>

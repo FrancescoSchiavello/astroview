@@ -1,3 +1,10 @@
+:root{
+    --padding: 20px;
+    --padding-buttons: 10px 30px;
+    --border-radius: 20px;
+    --margin-main: 30px;
+}
+
 @font-face {
     font-family: 'Ubuntu';
     src: url('./font/Ubuntu-Regular.ttf') format('truetype');
@@ -137,15 +144,57 @@ body.loaded #loader {
     display: none;
 }
 
-body.loaded .barra-velocita, body.loaded .logo{
+body.loaded .barra-velocita, body.loaded .header, body.loaded .help{
     display: flex;
 }
 
-.logo{
+.header{
     display: none;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(100% - var(--padding) * 2);
     position: absolute;
+    padding: var(--padding);
+}
+
+.logo{
     top: 20px;
     left: 20px;
+}
+
+.bottoni{
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: 12px;
+}
+
+.bottoni .hidden{
+    display: none;
+}
+
+.accedi, .registrati, .bottone-profilo{
+    cursor: pointer;
+    text-decoration: none;
+    overflow: hidden;
+    position: relative;
+    height: 22px;
+}
+
+.accedi::after, .registrati::after, .bottone-profilo::after {
+    content: "";
+    bottom: 0px;
+    position: absolute;
+    width: 0;
+    left: 50%;
+    height: 1px;
+    background-color: white;
+    transition: 0.4s ease;
+}
+
+.accedi:hover::after, .registrati:hover::after, .bottone-profilo:hover::after {
+    width: 100%;
+    left: 0;
 }
 
 .logo img{
@@ -185,26 +234,61 @@ body.loaded .barra-velocita, body.loaded .logo{
     cursor: pointer;
 }
 
+.speed-control::-webkit-slider-thumb {
+    width: 13px;
+    height: 13px;
+    background: black;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
 .info-pianeta{
     visibility: hidden;
     position: absolute;
     background-color: white;
     color: black;
-    margin: 0 5%;
-    top: 53%;
-    height: 0;
-    border-radius: 20px;
-    transform: translateY(-50%);
-    transition: height .25s ease-out;
-    padding: 20px;
-    overflow: auto;
+    top: 50%;
+    left: 50%;
+    border-radius: var(--border-radius);
+    transform: translate(-50%, -50%);
+    transition: opacity .25s ease-out;
+    opacity: 0;
+    padding: var(--padding);
+    max-height: 500px;
+    max-width: 400px;
 }
 
 .info-pianeta.expanded{
     visibility: visible;
-    height: 70%;
-    max-height: 500px;
-    max-width: 400px;
+    opacity: 1;
+}
+
+.paragrafi{
+    overflow-y: auto;
+    max-height: 300px;
+    scrollbar-width: thin;
+    scrollbar-color: black white;
+}
+
+.paragrafi::-webkit-scrollbar {
+    width: 6px;
+}
+
+.paragrafi::-webkit-scrollbar-track {
+    background: white;
+}
+
+.paragrafi::-webkit-scrollbar-thumb {
+    background: black;
+}
+
+.contenuto-info, .contenuto-curiosita {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    margin: 10px 10px 0 0;
 }
 
 .header-sezione{
@@ -233,9 +317,33 @@ body.loaded .barra-velocita, body.loaded .logo{
     width: 150px;
     height: 150px;
     background-color: black;
-    background-size: cover;
+    background-size: contain;
     background-position: center;
-    border-radius: 20px;
+    background-repeat: no-repeat;
+    border-radius: var(--border-radius);
+    margin-left: 5vw;
+}
+
+.bottone-chiudi{
+    background-color: rgb(0, 0, 0);
+    border: 2px solid white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 7px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(30%, -30%);
+    z-index: 10;
+}
+
+.bottone-chiudi img{
+    --d: 12px;
+    width: var(--d);
+    height: var(--d);
 }
 
 .paragrafi{
@@ -248,4 +356,146 @@ body.loaded .barra-velocita, body.loaded .logo{
 .titolo{
     font-size: large;
     font-weight: bold;
+}
+
+.main-content{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: var(--border-radius);
+}
+
+.login, .registrazione{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    margin: var(--margin-main);
+}
+
+.error {
+    color: red;
+    font-size: smaller;
+    margin: 0;
+}
+
+.main-content form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.main-content form input{
+    border-radius: var(--border-radius);
+    padding: 10px;
+    border: 1px solid black;
+    font-family: 'Ubuntu';
+}
+
+.bottone-invio{
+    color: white;
+    background-color: black;
+    padding: var(--padding-buttons) !important;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.link-form{
+    text-decoration: underline;
+    font-size: small;
+    cursor: pointer;
+}
+
+.container-sezioni {
+    display: none;
+    flex-direction: column;
+}
+
+.schede {
+    display: flex;
+}
+
+.schede > div {
+    position: relative;
+    padding: var(--padding);
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.contenuto-scheda > div {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--padding);
+} 
+
+.contenuto-scheda .active {
+    display: flex;
+}
+
+.schede > div::after {
+    content: "";
+    bottom: 0px;
+    position: absolute;
+    width: 0;
+    left: 50%;
+    height: 2px;
+    background-color: black;
+    transition: 0.4s ease;
+}
+
+.schede .active::after {
+    width: 100%;
+    left: 0;
+}
+
+.help {
+    position: absolute;
+    display: none;
+    top: 50%;
+    transform: translate(-85%, -50%);
+    background-color: none;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    max-width: 33%;
+    max-height: 20%;
+    border-radius: var(--border-radius);
+    transition: max-height 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    color: transparent;
+}
+
+@media (max-width: 768px) {
+    .help {
+        max-width: 75%;
+    }
+}
+
+.help p{
+    padding: 10px;
+    padding-left: 40px;
+    margin: 0;
+}
+
+.help img{
+    height: 26px;
+    width: 15px;
+    padding-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.close-arrow{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.help.expanded {
+    max-height: 100%;
+    transform: translate(-20px, -50%);
+    background-color: white;
+    color: black;
 }

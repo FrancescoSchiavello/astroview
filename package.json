@@ -11,6 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "@tweenjs/tween.js": "^23.1.2",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mysql2": "^3.11.0",
     "three": "^0.166.1"
   }
 }

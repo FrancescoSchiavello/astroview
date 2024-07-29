@@ -1,4 +1,4 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js';
+import * as THREE from '../node_modules/three/build/three.module.js';
 import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls.js';
 
 const planetsData = [
@@ -193,6 +193,7 @@ const moonsData = [
                 nome: "Luna",
                 foto: "img_info/moon.jpg",
                 distanza: "384,400 km dalla Terra",
+                diametro: "123",
                 massa: "7.342 x 10^22 kg",
                 info: "La Luna è l'unico satellite naturale della Terra ed è il quinto satellite naturale più grande del sistema solare.",
                 curiosita: "La Luna ha un'influenza significativa sulle maree terrestri a causa della sua forza gravitazionale."
@@ -236,6 +237,10 @@ controls.maxPolarAngle = Math.PI * 0.7;
 controls.minPolarAngle = Math.PI * 0.3;
 controls.minDistance = 16;
 controls.maxDistance = 600;
+controls.touches = {
+    ONE: THREE.TOUCH.ROTATE,
+    TWO: THREE.TOUCH.DOLLY_PAN
+};
 
 // Creazione sfera di background
 const geometry = new THREE.SphereGeometry(4000, 64, 64);
@@ -430,10 +435,75 @@ moonsData.forEach(moonData => {
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-// Event listener per il click del mouse
-window.addEventListener('click', onMouseClick, false);
+//Variabile di stato main content
+let isMainContentVisible = false;
+
+// Variabili per tenere traccia dello stato del mouse
+let isMouseDown = false;
+let mouseMoved = false;
+
+// Event listener per il mousedown
+window.addEventListener('mousedown', (event) => {
+    if (event.button === 0) { // Assicurati che sia il tasto sinistro del mouse
+        isMouseDown = true;
+        mouseMoved = false;
+    }
+});
+
+// Event listener per il mousemove
+window.addEventListener('mousemove', (event) => {
+    if (isMouseDown) {
+        mouseMoved = true;
+    }
+
+    // Aggiungi controllo per il cursore
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObjects(scene.children, true);
+
+    if (intersects.length > 0) {
+        const intersectedObject = intersects[0].object;
+
+        // Trova il pianeta o la luna sotto il cursore
+        let target = planets.find(planet => planet.mesh === intersectedObject);
+        if (!target) {
+            target = moons.find(moon => moon.mesh === intersectedObject);
+        }
+
+        if (target) {
+            // Cambia il cursore in pointer
+            document.body.style.cursor = 'pointer';
+        } else {
+            // Ripristina il cursore
+            document.body.style.cursor = 'default';
+        }
+    } else {
+        // Ripristina il cursore se non ci sono intersezioni
+        document.body.style.cursor = 'default';
+    }
+});
+
+// Modifica il listener per il mouseup per chiamare onMouseClick solo se il mouse non è stato mosso
+window.addEventListener('mouseup', (event) => {
+    if (event.button === 0) { // Assicurati che sia il tasto sinistro del mouse
+        isMouseDown = false;
+        if (!mouseMoved) {
+            onMouseClick(event);
+        }
+    }
+});
+
+var infoPianeta = document.querySelector(".info-pianeta");
 
 function onMouseClick(event) {
+
+    if (isMainContentVisible || help.classList.contains('expanded')) {
+        return;
+    }
+
     event.preventDefault();
 
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -491,16 +561,22 @@ function onMouseClick(event) {
      
             document.querySelector(".info-pianeta .nome").textContent = target.data.nome;
             document.querySelector(".info-pianeta .distanza").textContent = `Distanza: ${target.data.distanza}`;
-            document.querySelector(".info-pianeta .diametro").textContent = `Diametro: ${target.data.diametro || '--'}`;
+            document.querySelector(".info-pianeta .diametro").textContent = `Diametro: ${target.data.diametro}`;
             document.querySelector(".info-pianeta .massa").textContent = `Massa: ${target.data.massa}`;
             document.querySelector(".info-pianeta .img-pianeta").style.backgroundImage = `url(${target.data.foto})`;
-            document.querySelector(".info-pianeta .info .titolo").nextSibling.textContent = target.data.info;
-            document.querySelector(".info-pianeta .curiosita .titolo").nextSibling.textContent = target.data.curiosita;
+            document.querySelector(".info-pianeta .contenuto-info").textContent = target.data.info;
+            document.querySelector(".info-pianeta .contenuto-curiosita").textContent = target.data.curiosita;
 
-            document.querySelector(".info-pianeta").classList.add("expanded");
+            infoPianeta.classList.add("expanded");
         }
     }
 }
+
+const bottoneChiudi = document.querySelector(".bottone-chiudi");
+bottoneChiudi.addEventListener("click",(event) => {
+    event.stopPropagation();
+    infoPianeta.classList.remove("expanded");
+});
 
 // Funzione di animazione per far orbitare i pianeti e i satelliti
 function animate() {
@@ -530,3 +606,228 @@ function animate() {
 }
 
 animate();
+
+
+//Bottoni login e registrazione
+const mainContent = document.querySelector('.main-content');
+const bottoneAccedi = document.querySelector('.accedi');
+const bottoneRegistrati = document.querySelector('.registrati');
+const bottoneProfilo = document.querySelector('.bottone-profilo');
+
+const formLogin = document.querySelector('.login');
+const formRegistrazione = document.querySelector('.registrazione');
+
+bottoneAccedi.addEventListener('click', () => {
+    mainContent.style.display = 'flex';
+    formLogin.style.display = 'flex';
+    formRegistrazione.style.display = 'none';
+    isMainContentVisible = true;
+    infoPianeta.classList.remove("expanded");
+    help.classList.remove("expanded");
+    help.style.display = 'none';
+    arrow.src = 'img/arrow_white.png';
+});
+
+bottoneRegistrati.addEventListener('click', () => {
+    mainContent.style.display = 'flex';
+    formRegistrazione.style.display = 'flex';
+    formLogin.style.display = 'none';
+    isMainContentVisible = true;
+    infoPianeta.classList.remove("expanded");
+    help.classList.remove("expanded");
+    help.style.display = 'none';
+    arrow.src = 'img/arrow_white.png';
+});
+
+const bottoniChiusura = document.querySelectorAll('.main-content .bottone-chiudi');
+bottoniChiusura.forEach((b) => {
+    b.addEventListener('click', () => {
+        mainContent.style.display = 'none';
+        isMainContentVisible = false;
+        help.style.display = 'flex';
+    });
+});
+
+//Link form
+const linkForm = document.querySelectorAll('.main-content .link-form');
+linkForm.forEach((l) => {
+    l.addEventListener('click', () => {
+        if (formRegistrazione.style.display == 'flex') {
+            formRegistrazione.style.display = 'none'; 
+            formLogin.style.display = 'flex';    
+        } else {
+            formRegistrazione.style.display = 'flex'; 
+            formLogin.style.display = 'none';    
+        }
+        
+    });
+});
+
+//Bottone help
+const help = document.querySelector('.help');
+const arrow = document.querySelector('.arrow-img');
+document.querySelector('.close-arrow').addEventListener('click', function(event) {
+    event.stopPropagation();
+
+    if (isMainContentVisible) {
+        return
+    }
+    
+    help.classList.toggle('expanded');
+    infoPianeta.classList.remove('expanded');
+
+    if (help.classList.contains('expanded')) {
+        arrow.src = 'img/arrow_black.png';
+    } else {
+        arrow.src = 'img/arrow_white.png';
+    }
+});
+
+//Sezione help che appare per tre secondi
+document.addEventListener('DOMContentLoaded', () => {
+
+    setTimeout(() => {
+        help.classList.add('expanded');
+        arrow.src = 'img/arrow_black.png';
+    }, 500);
+
+
+    setTimeout(() => {
+        help.classList.remove('expanded');
+        arrow.src = 'img/arrow_white.png';
+    }, 5000);
+});
+
+//Funzione per mostrare la sezione desiderata
+function showSection(sezione) {
+    const sezioni = document.querySelectorAll('.contenuto-scheda > div');
+    sezioni.forEach((el) => {
+        el.classList.remove('active');
+    });
+    document.querySelector('.sezione-' + sezione).classList.add('active');
+
+    const schede = document.querySelectorAll('.schede > div');
+    schede.forEach((el) => {
+        el.classList.remove('active');
+    });
+    document.querySelector('.' + sezione).classList.add('active');
+}
+
+//Click sulla sezione
+document.querySelectorAll('.schede div').forEach((el) => {
+    el.addEventListener('click', (event) => {
+        event.stopPropagation();
+        showSection(el.classList[0]);
+    });
+});
+
+//Login
+document.querySelector('.form-login').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var formData = new FormData(this);
+
+    var data = {};
+    formData.forEach(function(value, key) {
+        data[key] = value;
+    });
+
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function(response) {
+        if (response.status === 200) {
+            onSuccessfullFormSubmit();
+        } else if (response.status === 401) {
+            throw new Error('E-mail o password errata.');
+        } else {
+            throw new Error('Errore durante la richiesta.');
+        }
+    })
+    .catch(function(error) {
+        document.querySelector('.login .error').textContent = error.message;
+    });
+});
+
+
+//Registrazione
+document.querySelector('.form-registrazione').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var formData = new FormData(this);
+
+    var data = {};
+    formData.forEach(function(value, key) {
+        data[key] = value;
+    });
+
+    fetch('/registrazione', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function(response) {
+        switch(response.status) {
+            case 200: onSuccessfullFormSubmit();
+            break;
+            case 400: throw new Error('Questa e-mail è già in uso');
+            break;
+            case 401:  throw new Error('Questo nome utente è già in uso');
+            break;
+            default: throw new Error('Errore durante la richiesta.');
+        }
+    })
+    .catch(function(error) {
+        document.querySelector('.registrazione .error').textContent = error.message;
+    });
+});
+
+//Funzione avvenuta registrazione/login
+const containerSezioni = document.querySelector('.container-sezioni');
+
+function onSuccessfullFormSubmit() {
+    formLogin.style.display = 'none';
+    formRegistrazione.style.display = 'none';
+    containerSezioni.style.display = 'flex';
+    checkAuth();
+};
+
+
+//Check sessione utente
+async function checkAuth() {
+    try {
+        const response = await fetch('/check-auth');
+        const result = await response.json();
+
+        if (result.authenticated) {
+            bottoneAccedi.classList.add('hidden');
+            bottoneRegistrati.classList.add('hidden');
+            bottoneProfilo.classList.remove('hidden');
+        } else {
+            bottoneAccedi.classList.remove('hidden');
+            bottoneRegistrati.classList.remove('hidden');
+            bottoneProfilo.classList.add('hidden');
+        }
+    } catch (error) {
+        console.error('Errore durante il controllo dell\'autenticazione:', error);
+    }
+}
+
+checkAuth();
+
+//Bottone profilo
+document.querySelector('.bottone-profilo').addEventListener('click', () => {
+    containerSezioni.style.display = 'flex';
+    mainContent.style.display = 'flex';
+    isMainContentVisible = true;
+    infoPianeta.classList.remove("expanded");
+    help.classList.remove("expanded");
+    help.style.display = 'none';
+    arrow.src = 'img/arrow_white.png';
+});
