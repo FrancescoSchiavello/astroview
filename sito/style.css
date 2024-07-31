@@ -3,6 +3,7 @@
     --padding-buttons: 10px 30px;
     --border-radius: 20px;
     --margin-main: 30px;
+    --max-width: 370px;
 }
 
 @font-face {
@@ -169,7 +170,7 @@ body.loaded .barra-velocita, body.loaded .header, body.loaded .help{
     gap: 12px;
 }
 
-.bottoni .hidden{
+.bottone-profilo{
     display: none;
 }
 
@@ -179,6 +180,10 @@ body.loaded .barra-velocita, body.loaded .header, body.loaded .help{
     overflow: hidden;
     position: relative;
     height: 22px;
+}
+
+.accedi, .registrati{
+    display: none;
 }
 
 .accedi::after, .registrati::after, .bottone-profilo::after {
@@ -257,7 +262,7 @@ body.loaded .barra-velocita, body.loaded .header, body.loaded .help{
     opacity: 0;
     padding: var(--padding);
     max-height: 500px;
-    max-width: 400px;
+    max-width: var(--max-width);
 }
 
 .info-pianeta.expanded{
@@ -265,22 +270,22 @@ body.loaded .barra-velocita, body.loaded .header, body.loaded .help{
     opacity: 1;
 }
 
-.paragrafi{
+.paragrafi, .sezione-classifica-container{
     overflow-y: auto;
     max-height: 300px;
     scrollbar-width: thin;
     scrollbar-color: black white;
 }
 
-.paragrafi::-webkit-scrollbar {
+.paragrafi::-webkit-scrollbar, .sezione-classifica-container::-webkit-scrollbar {
     width: 6px;
 }
 
-.paragrafi::-webkit-scrollbar-track {
+.paragrafi::-webkit-scrollbar-track, .sezione-classifica-container::-webkit-scrollbar-track {
     background: white;
 }
 
-.paragrafi::-webkit-scrollbar-thumb {
+.paragrafi::-webkit-scrollbar-thumb, .sezione-classifica-container::-webkit-scrollbar-thumb {
     background: black;
 }
 
@@ -366,6 +371,8 @@ body.loaded .barra-velocita, body.loaded .header, body.loaded .help{
     transform: translate(-50%, -50%);
     background-color: white;
     border-radius: var(--border-radius);
+    max-height: 500px;
+    max-width: var(--max-width);
 }
 
 .login, .registrazione{
@@ -414,10 +421,16 @@ body.loaded .barra-velocita, body.loaded .header, body.loaded .help{
 .container-sezioni {
     display: none;
     flex-direction: column;
+    max-width: 100%;
 }
 
 .schede {
     display: flex;
+    justify-content: space-between;
+}
+
+.schede .classifica{
+    border-right: none;
 }
 
 .schede > div {
@@ -425,6 +438,8 @@ body.loaded .barra-velocita, body.loaded .header, body.loaded .help{
     padding: var(--padding);
     border-right: 1px solid rgba(0, 0, 0, 0.3);
     cursor: pointer;
+    width: 100%;
+    text-align: center;
 }
 
 .contenuto-scheda > div {
@@ -472,11 +487,14 @@ body.loaded .barra-velocita, body.loaded .header, body.loaded .help{
     .help {
         max-width: 75%;
     }
+
+    .main-content, .sezione-classifica-container{
+        max-width: 90%;
+    }
 }
 
 .help p{
-    padding: 10px;
-    padding-left: 40px;
+    padding: 20px 10px 20px 40px;
     margin: 0;
 }
 
@@ -498,4 +516,89 @@ body.loaded .barra-velocita, body.loaded .header, body.loaded .help{
     transform: translate(-20px, -50%);
     background-color: white;
     color: black;
+}
+.sezione-classifica.active{
+    display: flex;
+    flex-direction: column;
+}
+
+.sezione-profilo.active,
+.sezione-quiz.active,
+.sezione-classifica-container {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.opzioni-account, .punteggio {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.testo-punteggio, .dati-punteggio {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dati-punteggio{
+    text-align: right;
+}
+
+.opzioni-account {
+    font-size: x-small;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.classificato, .nomi-colonne{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.classificato.active-user {
+    background-color: black;
+    color: white;
+    padding: 4px 0;
+    border-radius: var(--border-radius);
+    width: 100%;
+    align-self: center;
+}
+
+.nomi-colonne{
+    font-size: smaller;
+    color: gray;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.colonna, .classificato > div{
+    width: 38%;
+    text-align: center;
+}
+
+.sezione-classifica-container {
+    justify-content: flex-start;
+    overflow-x: hidden;
+    gap: 6px;
+    width: calc(var(--max-width) - 2 * var(--padding) + 10px);
+}
+
+.nome-classifica{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.colonna:first-child,
+.classificato > div:first-child {
+    width: 8%; 
+}
+
+.colonna:last-child,
+.classificato > div:last-child {
+    width: 16%; 
 }

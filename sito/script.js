@@ -201,7 +201,6 @@ const moonsData = [
     }
 ];
 
-
 const textureLoader = new THREE.TextureLoader();
 
 // Variabile per tenere traccia delle texture caricate
@@ -533,9 +532,9 @@ function onMouseClick(event) {
                 z: camera.position.z
             };
             const endPosition = {
-                x: targetPosition.x - 30,
-                y: targetPosition.y + 15,
-                z: targetPosition.z + 20
+                x: targetPosition.x - 10,
+                y: targetPosition.y + 30,
+                z: targetPosition.z + 10
             };
 
             new TWEEN.Tween(startPosition)
@@ -806,13 +805,28 @@ async function checkAuth() {
         const result = await response.json();
 
         if (result.authenticated) {
-            bottoneAccedi.classList.add('hidden');
-            bottoneRegistrati.classList.add('hidden');
-            bottoneProfilo.classList.remove('hidden');
+            bottoneProfilo.style.display = 'flex';
+            bottoneRegistrati.style.display = 'none';
+            bottoneAccedi.style.display = 'none';
+            fetch('/user-info')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Errore' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.querySelector('.sezione-profilo .titolo').textContent += data.nome_utente;
+                    document.querySelector('.punti-max-dati').textContent = data.score;
+                    document.querySelector('.tempo-min-dati').textContent = data.tempo_min;
+                })
+                .catch(error => {
+                    console.error('Errore nel recupero dei dati', error);
+                });
         } else {
-            bottoneAccedi.classList.remove('hidden');
-            bottoneRegistrati.classList.remove('hidden');
-            bottoneProfilo.classList.add('hidden');
+            bottoneProfilo.style.display = 'none';
+            bottoneRegistrati.style.display = 'flex';
+            bottoneAccedi.style.display = 'flex';
         }
     } catch (error) {
         console.error('Errore durante il controllo dell\'autenticazione:', error);
@@ -830,4 +844,82 @@ document.querySelector('.bottone-profilo').addEventListener('click', () => {
     help.classList.remove("expanded");
     help.style.display = 'none';
     arrow.src = 'img/arrow_white.png';
+});
+
+//Logout
+document.querySelector('.logout').addEventListener('click', () => {
+    fetch('/logout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Errore ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        window.location.href = '/index.html';
+    })
+    .catch(error => {
+        console.error('Errore durante l\'operazione di logout:', error);
+    });
+});
+
+
+//Fetch classifica
+document.querySelector('.classifica').addEventListener('click', () => {
+    let loggedInUserId;
+
+    // Ottieni l'ID dell'utente loggato
+    fetch('/current-user')
+        .then(response => response.json())
+        .then(data => {
+            loggedInUserId = data.userId;
+            return fetch('/classifica');
+        })
+        .then(response => response.json())
+        .then(data => {
+            const sezioneClassifica = document.querySelector('.sezione-classifica-container');
+
+            // Rimuovi tutti i div con classe 'classificato' se esistono
+            const classificatiEsistenti = sezioneClassifica.querySelectorAll('.classificato');
+           classificatiEsistenti.forEach(classificato => classificato.remove());
+
+            // Aggiungi i nuovi risultati
+            data.forEach((item, index) => {
+                const classificatoDiv = document.createElement('div');
+                classificatoDiv.classList.add('classificato');
+
+                if (item.id_utente === loggedInUserId) {
+                    classificatoDiv.classList.add('active-user');
+                }
+
+                const posizioneClassifica = document.createElement('div');
+                posizioneClassifica.classList.add('posizione-classifica');
+                posizioneClassifica.textContent = index + 1;
+
+                const nomeClassifica = document.createElement('div');
+                nomeClassifica.classList.add('nome-classifica');
+                nomeClassifica.textContent = item.nome_utente;
+
+                const tempoClassifica = document.createElement('div');
+                tempoClassifica.classList.add('tempo-classifica');
+                tempoClassifica.textContent = item.tempo_min;
+
+                const puntiClassifica = document.createElement('div');
+                puntiClassifica.classList.add('punti-classifica');
+                puntiClassifica.textContent = item.score;
+
+                classificatoDiv.appendChild(posizioneClassifica);
+                classificatoDiv.appendChild(nomeClassifica);
+                classificatoDiv.appendChild(tempoClassifica);
+                classificatoDiv.appendChild(puntiClassifica);
+
+                sezioneClassifica.appendChild(classificatoDiv);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
 });

@@ -34,7 +34,7 @@ app.post('/login', (req, res) => {
     const { email, password } = req.body;
   
     connection.query(
-      'SELECT ID_utente FROM utenti WHERE email = ? AND password_utente = ?',
+      'SELECT id_utente FROM utenti WHERE email = ? AND password_utente = ?',
       [email, password],
       (error, results) => {
         if (error) {
@@ -43,7 +43,7 @@ app.post('/login', (req, res) => {
           if (!results.length) {
             res.status(401).json({ error: 'Email o password errati' });
           } else {
-            req.session.userId = results[0].ID_utente;
+            req.session.userId = results[0].id_utente;
             res.status(200).json({ message: 'Login avvenuto con successo' });
           }
         }
@@ -86,13 +86,13 @@ app.post('/registrazione', (req, res) => {
                               return res.status(500).json({ error: 'Errore durante la registrazione' });
                           }
                           connection.query(
-                              'SELECT ID_utente FROM utenti WHERE email = ?',
+                              'SELECT id_utente FROM utenti WHERE email = ?',
                               [email],
                               (error, results) => {
                                   if (error) {
                                       return res.status(500).json({ error: 'Errore durante la registrazione' });
                                   }
-                                  const userId = results[0].ID_utente;
+                                  const userId = results[0].id_utente;
                                   req.session.userId = userId;
                                   res.status(200).json({ message: 'Registrazione avvenuta con successo' });
                               }
@@ -103,6 +103,55 @@ app.post('/registrazione', (req, res) => {
           );
       }
   );
+});
+
+app.get('/user-info', (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ error: 'Non autenticato' });
+    }
+
+    const userId = req.session.userId;
+
+    connection.query(
+        'SELECT nome_utente, tempo_min, score FROM utenti WHERE id_utente = ?',
+        [userId],
+        (error, results) => {
+            if (error) {
+                return res.status(500).json({ error: 'Errore durante il recupero delle informazioni utente' });
+            }
+            if (!results.length) {
+                return res.status(404).json({ error: 'Utente non trovato' });
+            }
+
+            const userInfo = results[0];
+            res.status(200).json({ nome_utente: userInfo.nome_utente, tempo_min: userInfo.tempo_min, score: userInfo.score });
+        }
+    );
+});
+
+app.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Errore durante il logout' });
+        }
+        res.status(200).json({ message: 'Logout avvenuto con successo' });
+    });
+});
+
+app.get('/classifica', (req, res) => {
+    connection.query('SELECT id_utente, nome_utente, tempo_min, score FROM utenti ORDER BY score DESC', (err, results) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.json(results);
+    });
+});
+
+app.get('/current-user', (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ error: 'Non autenticato' });
+    }
+    res.json({ userId: req.session.userId });
 });
 
 
