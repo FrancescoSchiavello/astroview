@@ -113,7 +113,7 @@ app.get('/user-info', (req, res) => {
     const userId = req.session.userId;
 
     connection.query(
-        'SELECT nome_utente, tempo_min, score FROM utenti WHERE id_utente = ?',
+        'SELECT nome_utente, punti_max FROM utenti WHERE id_utente = ?',
         [userId],
         (error, results) => {
             if (error) {
@@ -124,7 +124,7 @@ app.get('/user-info', (req, res) => {
             }
 
             const userInfo = results[0];
-            res.status(200).json({ nome_utente: userInfo.nome_utente, tempo_min: userInfo.tempo_min, score: userInfo.score });
+            res.status(200).json({ nome_utente: userInfo.nome_utente, punti_max: userInfo.punti_max });
         }
     );
 });
@@ -139,7 +139,7 @@ app.post('/logout', (req, res) => {
 });
 
 app.get('/classifica', (req, res) => {
-    connection.query('SELECT id_utente, nome_utente, tempo_min, score FROM utenti ORDER BY score DESC', (err, results) => {
+    connection.query('SELECT id_utente, nome_utente, punti_max FROM utenti ORDER BY punti_max DESC', (err, results) => {
         if (err) {
             return res.status(500).send(err);
         }
@@ -154,6 +154,35 @@ app.get('/current-user', (req, res) => {
     res.json({ userId: req.session.userId });
 });
 
+app.get('/random-question', (req, res) => {
+    connection.query(
+        'SELECT * FROM domande ORDER BY RAND() LIMIT 1',
+        (error, questionResults) => {
+            if (error) {
+                return res.status(500).json({ error: 'Errore durante il recupero della domanda' });
+            }
+            if (!questionResults.length) {
+                return res.status(404).json({ error: 'Nessuna domanda trovata' });
+            }
+
+            const question = questionResults[0];
+
+            connection.query(
+                'SELECT * FROM risposte WHERE id_domanda = ?',
+                [question.id_domanda],
+                (error, answerResults) => {
+                    if (error) {
+                        return res.status(500).json({ error: 'Errore durante il recupero delle risposte' });
+                    }
+                    res.status(200).json({
+                        domanda: question,
+                        risposte: answerResults
+                    });
+                }
+            );
+        }
+    );
+});
 
 app.listen(port, () => {
     console.log(`Server in ascolto su http://localhost:${port}`);

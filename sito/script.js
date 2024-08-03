@@ -203,16 +203,6 @@ const moonsData = [
 
 const textureLoader = new THREE.TextureLoader();
 
-// Variabile per tenere traccia delle texture caricate
-let loadedTextures = 0;
-const totalTextures = planetsData.length + moonsData.length + 1; // pianeti + lune + background
-
-function onTextureLoad() {
-    loadedTextures++;
-    if (loadedTextures === totalTextures) {
-        document.body.classList.add('loaded');
-    }
-}
 
 // Crea una scena
 const scene = new THREE.Scene();
@@ -244,7 +234,7 @@ controls.touches = {
 // Creazione sfera di background
 const geometry = new THREE.SphereGeometry(4000, 64, 64);
 const material = new THREE.MeshBasicMaterial({
-    map: textureLoader.load('img/starmapedit.png', onTextureLoad),
+    map: textureLoader.load('img/starmapedit.png'),
     side: THREE.BackSide
 });
 const sphere = new THREE.Mesh(geometry, material);
@@ -308,7 +298,6 @@ function addOrbitingPlanet(planetData) {
     const { name, texture, rings, width, position, rotationSpeed, orbitSpeed, rotation } = planetData;
 
     const planetTexture = textureLoader.load(texture, () => {
-        onTextureLoad();
         const planetGeometry = new THREE.SphereGeometry(width, 32, 32);
         const planetMaterial = name === 'sun' ? 
             new THREE.MeshBasicMaterial({ map: planetTexture }) :
@@ -333,7 +322,7 @@ function addOrbitingPlanet(planetData) {
         if (rings) {
             const ringGeometry = new THREE.RingGeometry(1.8 * width, 3 * width, 64);
             const ringMaterial = new THREE.MeshStandardMaterial({
-                map: textureLoader.load(rings, onTextureLoad),
+                map: textureLoader.load(rings),
                 side: THREE.DoubleSide,
                 transparent: true
             });
@@ -360,7 +349,6 @@ function addSatellite(moonData) {
     const { name, texture, width, position, rotationSpeed, orbitSpeed, parent } = moonData;
 
     const moonTexture = textureLoader.load(texture, () => {
-        onTextureLoad();
         const moonGeometry = new THREE.SphereGeometry(width, 32, 32);
         const moonMaterial = new THREE.MeshStandardMaterial({ map: moonTexture });
         const moon = new THREE.Mesh(moonGeometry, moonMaterial);
@@ -606,7 +594,6 @@ function animate() {
 
 animate();
 
-
 //Bottoni login e registrazione
 const mainContent = document.querySelector('.main-content');
 const bottoneAccedi = document.querySelector('.accedi');
@@ -638,13 +625,16 @@ bottoneRegistrati.addEventListener('click', () => {
     arrow.src = 'img/arrow_white.png';
 });
 
-const bottoniChiusura = document.querySelectorAll('.main-content .bottone-chiudi');
-bottoniChiusura.forEach((b) => {
-    b.addEventListener('click', () => {
-        mainContent.style.display = 'none';
-        isMainContentVisible = false;
-        help.style.display = 'flex';
-    });
+const bottoneChiusura = document.querySelector('.main-content .bottone-chiudi');
+bottoneChiusura.addEventListener('click', () => {
+    mainContent.style.display = 'none';
+    isMainContentVisible = false;
+    help.style.display = 'flex';
+    schermataInizialeQuiz.classList.add('active');
+    schermataQuiz.classList.remove('active');
+    schermataRiepilogoQuiz.classList.remove('active');
+    points = 0;
+    quizPoints.innerHTML = 'Punti: 0';
 });
 
 //Link form
@@ -817,8 +807,58 @@ async function checkAuth() {
                 })
                 .then(data => {
                     document.querySelector('.sezione-profilo .titolo').textContent += data.nome_utente;
-                    document.querySelector('.punti-max-dati').textContent = data.score;
-                    document.querySelector('.tempo-min-dati').textContent = data.tempo_min;
+                    document.querySelector('.punti-max-dati').textContent = data.punti_max;
+                    document.querySelector('.punti-max-dati-quiz').textContent = 'Punteggio più alto: ' + data.punti_max;
+
+                    let loggedInUserId;
+
+                    // Ottieni l'ID dell'utente loggato
+                    fetch('/current-user')
+                        .then(response => response.json())
+                        .then(data => {
+                            loggedInUserId = data.userId;
+                            return fetch('/classifica');
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const sezioneClassifica = document.querySelector('.sezione-classifica-container');
+                
+                            // Rimuovi tutti i div con classe 'classificato' se esistono
+                            const classificatiEsistenti = sezioneClassifica.querySelectorAll('.classificato');
+                           classificatiEsistenti.forEach(classificato => classificato.remove());
+                
+                            // Aggiungi i nuovi risultati
+                            data.forEach((item, index) => {
+                                const classificatoDiv = document.createElement('div');
+                                classificatoDiv.classList.add('classificato');
+                
+                                if (item.id_utente === loggedInUserId) {
+                                    classificatoDiv.classList.add('active-user');
+                                    const posizioneClassificaProfile = document.querySelector('.posizione-classifica-dati');
+                                    posizioneClassificaProfile.textContent = index + 1;
+                                }
+                
+                                const posizioneClassifica = document.createElement('div');
+                                posizioneClassifica.classList.add('posizione-classifica');
+                                posizioneClassifica.textContent = index + 1;
+                
+                                const nomeClassifica = document.createElement('div');
+                                nomeClassifica.classList.add('nome-classifica');
+                                nomeClassifica.textContent = item.nome_utente;
+                
+                                const puntiClassifica = document.createElement('div');
+                                puntiClassifica.classList.add('punti-classifica');
+                                puntiClassifica.textContent = item.punti_max;
+                
+                                classificatoDiv.appendChild(posizioneClassifica);
+                                classificatoDiv.appendChild(nomeClassifica);
+                                classificatoDiv.appendChild(puntiClassifica);
+                
+                                sezioneClassifica.appendChild(classificatoDiv);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+
                 })
                 .catch(error => {
                     console.error('Errore nel recupero dei dati', error);
@@ -868,58 +908,93 @@ document.querySelector('.logout').addEventListener('click', () => {
     });
 });
 
+//Quiz
+const schermataInizialeQuiz = document.querySelector('.schermata-iniziale-quiz');
+const schermataQuiz = document.querySelector('.schermata-quiz');
+const schermataRiepilogoQuiz = document.querySelector('.schermata-riepilogo-quiz');
 
-//Fetch classifica
-document.querySelector('.classifica').addEventListener('click', () => {
-    let loggedInUserId;
+const bottoneInizioQuiz = document.querySelector('.schermata-iniziale-quiz .bottone');
+bottoneInizioQuiz.addEventListener('click', () => {
+    schermataInizialeQuiz.classList.remove('active');
+    schermataQuiz.classList.add('active');
+    loadRandomQuestion();
+});
 
-    // Ottieni l'ID dell'utente loggato
-    fetch('/current-user')
-        .then(response => response.json())
-        .then(data => {
-            loggedInUserId = data.userId;
-            return fetch('/classifica');
-        })
-        .then(response => response.json())
-        .then(data => {
-            const sezioneClassifica = document.querySelector('.sezione-classifica-container');
+const quizPoints = document.querySelector('.schermata-quiz .punti');
+let points = 0;
+quizPoints.innerHTML = 'Punti: ' + points;
+let isAnswerSelected = false;
 
-            // Rimuovi tutti i div con classe 'classificato' se esistono
-            const classificatiEsistenti = sezioneClassifica.querySelectorAll('.classificato');
-           classificatiEsistenti.forEach(classificato => classificato.remove());
+async function loadRandomQuestion() {
+    try {
+        const response = await fetch('/random-question');
+        const data = await response.json();
 
-            // Aggiungi i nuovi risultati
-            data.forEach((item, index) => {
-                const classificatoDiv = document.createElement('div');
-                classificatoDiv.classList.add('classificato');
+        if (response.status !== 200) {
+            console.error('Errore durante il recupero della domanda:', data.error);
+            return;
+        }
 
-                if (item.id_utente === loggedInUserId) {
-                    classificatoDiv.classList.add('active-user');
+        const question = data.domanda;
+        const answers = data.risposte;
+
+        const titleElement = document.querySelector('.schermata-quiz .titolo');
+        titleElement.textContent = question.testo_domanda;
+
+        const answersContainer = document.querySelector('.schermata-quiz .risposte');
+        answersContainer.innerHTML = '';
+
+        answers.forEach(answer => {
+            const answerDiv = document.createElement('div');
+            answerDiv.className = 'risposta';
+            answerDiv.textContent = answer.testo_risposta;
+            answerDiv.dataset.isCorrect = answer.is_correct;
+            answerDiv.addEventListener('click', () => {
+
+                if (!isAnswerSelected) {
+                    handleAnswerClick(answerDiv);
                 }
 
-                const posizioneClassifica = document.createElement('div');
-                posizioneClassifica.classList.add('posizione-classifica');
-                posizioneClassifica.textContent = index + 1;
-
-                const nomeClassifica = document.createElement('div');
-                nomeClassifica.classList.add('nome-classifica');
-                nomeClassifica.textContent = item.nome_utente;
-
-                const tempoClassifica = document.createElement('div');
-                tempoClassifica.classList.add('tempo-classifica');
-                tempoClassifica.textContent = item.tempo_min;
-
-                const puntiClassifica = document.createElement('div');
-                puntiClassifica.classList.add('punti-classifica');
-                puntiClassifica.textContent = item.score;
-
-                classificatoDiv.appendChild(posizioneClassifica);
-                classificatoDiv.appendChild(nomeClassifica);
-                classificatoDiv.appendChild(tempoClassifica);
-                classificatoDiv.appendChild(puntiClassifica);
-
-                sezioneClassifica.appendChild(classificatoDiv);
             });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+            answersContainer.appendChild(answerDiv);
+            isAnswerSelected = false;
+        });
+    } catch (error) {
+        console.error('Errore:', error);
+    }
+}
+
+function handleAnswerClick(answerDiv) {
+    isAnswerSelected = true;
+    const isCorrect = answerDiv.dataset.isCorrect === '1';
+
+    if (isCorrect) {
+        answerDiv.style.backgroundColor = 'rgba(0, 128, 0, 0.3)';
+        points++;
+        quizPoints.innerHTML = 'Punti: ' + points;
+
+        // Carica una nuova domanda dopo un breve ritardo
+        setTimeout(loadRandomQuestion, 500);
+    } else {
+        answerDiv.style.backgroundColor = 'rgba(255, 0, 0, 0.3)';
+
+        // Rimuovere la classe active dalla schermata del quiz e mostrare la schermata di riepilogo
+        setTimeout(() => {
+            schermataQuiz.classList.remove('active');
+            schermataRiepilogoQuiz.classList.add('active');
+
+            // Aggiorna il punteggio nella schermata di riepilogo
+            const riepilogoPunti = document.querySelector('.schermata-riepilogo-quiz .punti');
+            riepilogoPunti.innerHTML = 'Punteggio finale: ' + points;
+        }, 500);
+    }
+};
+
+const bottoneFineQuiz = document.querySelector('.schermata-riepilogo-quiz .bottone');
+bottoneFineQuiz.addEventListener('click', () => {
+    schermataInizialeQuiz.classList.add('active');
+    schermataRiepilogoQuiz.classList.remove('active');
+
+    points = 0;
+    quizPoints.innerHTML = 'Punti: 0';
 });
