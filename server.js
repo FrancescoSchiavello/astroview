@@ -184,6 +184,46 @@ app.get('/random-question', (req, res) => {
     );
 });
 
+app.post('/update-score', (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ error: 'Non autenticato' });
+    }
+
+    const userId = req.session.userId;
+    const { punti } = req.body;
+
+    connection.query(
+        'SELECT punti_max FROM utenti WHERE id_utente = ?',
+        [userId],
+        (error, results) => {
+            if (error) {
+                return res.status(500).json({ error: 'Errore durante il recupero delle informazioni utente' });
+            }
+            if (!results.length) {
+                return res.status(404).json({ error: 'Utente non trovato' });
+            }
+
+            const puntiMaxAttuali = results[0].punti_max;
+
+            if (punti > puntiMaxAttuali) {
+                connection.query(
+                    'UPDATE utenti SET punti_max = ? WHERE id_utente = ?',
+                    [punti, userId],
+                    (error) => {
+                        if (error) {
+                            return res.status(500).json({ error: 'Errore durante l\'aggiornamento del punteggio' });
+                        }
+                        res.status(200).json({ message: 'Punteggio aggiornato con successo' });
+                    }
+                );
+            } else {
+                res.status(200).json({ message: 'Il punteggio non è superiore al punteggio massimo attuale' });
+            }
+        }
+    );
+});
+
+
 app.listen(port, () => {
     console.log(`Server in ascolto su http://localhost:${port}`);
 });

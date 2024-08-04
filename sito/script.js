@@ -806,7 +806,7 @@ async function checkAuth() {
                     return response.json();
                 })
                 .then(data => {
-                    document.querySelector('.sezione-profilo .titolo').textContent += data.nome_utente;
+                    document.querySelector('.sezione-profilo .titolo').textContent = data.nome_utente;
                     document.querySelector('.punti-max-dati').textContent = data.punti_max;
                     document.querySelector('.punti-max-dati-quiz').textContent = 'Punteggio più alto: ' + data.punti_max;
 
@@ -986,6 +986,8 @@ function handleAnswerClick(answerDiv) {
             // Aggiorna il punteggio nella schermata di riepilogo
             const riepilogoPunti = document.querySelector('.schermata-riepilogo-quiz .punti');
             riepilogoPunti.innerHTML = 'Punteggio finale: ' + points;
+
+            updateScore()
         }, 500);
     }
 };
@@ -998,3 +1000,20 @@ bottoneFineQuiz.addEventListener('click', () => {
     points = 0;
     quizPoints.innerHTML = 'Punti: 0';
 });
+
+
+//Aggiornare punteggio
+async function updateScore() {
+    try {
+        const response = await fetch('/update-score', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ punti: points })
+        });
+        checkAuth();
+    } catch (error) {
+        console.error('Errore nella richiesta di aggiornamento del punteggio:', error);
+    }
+}
