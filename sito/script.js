@@ -15,8 +15,8 @@ const planetsData = [
                 distanza: "--",
                 diametro: "1,392,700 km",
                 massa: "1.989 x 10^30 kg",
-                info: "Il Sole è la stella al centro del nostro sistema solare. È una sfera quasi perfetta di plasma incandescente.",
-                curiosita: "Il Sole contiene il 99.86% della massa totale del sistema solare."
+                info: "Il Sole è la stella al centro del nostro sistema solare, una sfera incandescente di gas composta principalmente da idrogeno ed elio. La sua immensa gravità tiene legati tutti i pianeti, gli asteroidi e le comete che orbitano attorno ad esso. Le reazioni nucleari al suo interno producono una quantità enorme di energia, che viene irradiata nello spazio sotto forma di luce e calore. Questa energia è fondamentale per la vita sulla Terra.",
+                curiosita: "Sapevi che il Sole è così grande che al suo interno potrebbero stare oltre un milione di Terre? E che la sua età è stimata intorno ai 4,6 miliardi di anni? Sulla superficie del Sole appaiono regolarmente delle macchie scure, chiamate macchie solari, che sono zone più fredde e con un intenso campo magnetico. Queste macchie variano in numero seguendo un ciclo di circa undici anni, influenzando l'attività solare e il clima terrestre. Il Sole emette continuamente un flusso di particelle cariche, chiamato vento solare, che interagisce con i campi magnetici dei pianeti e può causare spettacolari aurore boreali e australi sulla Terra. Nonostante la sua importanza per la vita, il Sole ha una durata limitata. Tra miliardi di anni, quando avrà esaurito tutto il suo combustibile nucleare, si espanderà fino a inghiottire i pianeti interni, compresa la Terra."
               }
     },
     {
@@ -32,8 +32,8 @@ const planetsData = [
                 distanza: "57.91 milioni di km dal Sole",
                 diametro: "4,880 km",
                 massa: "3.285 x 10^23 kg",
-                info: "Mercurio è il pianeta più vicino al Sole e il più piccolo del sistema solare.",
-                curiosita: "Mercurio ha il giorno più lungo di qualsiasi altro pianeta del sistema solare, con un giorno che dura circa 176 giorni terrestri."
+                info: "Mercurio è il pianeta più vicino al Sole e il più piccolo del sistema solare. A causa della sua vicinanza alla stella, subisce enormi escursioni termiche: durante il giorno la temperatura può superare i 400°C, mentre di notte scende a -180°C. La superficie di Mercurio è fortemente craterizzata, simile a quella della Luna, a causa dell'impatto di numerosi asteroidi e comete.",
+                curiosita: "Un aspetto curioso di Mercurio è la sua rotazione estremamente lenta rispetto al suo moto di rivoluzione attorno al Sole. Un giorno su Mercurio dura circa 58 giorni terrestri, mentre un anno appena 88 giorni terrestri. Questo significa che un giorno su Mercurio dura quasi quanto un anno! Inoltre, il nucleo di ferro di Mercurio è sorprendentemente grande, costituendo circa il 70% della sua massa totale. Questa caratteristica lo rende un pianeta molto denso e con un campo magnetico relativamente intenso, nonostante le sue piccole dimensioni."
               }
     },
     {
@@ -49,8 +49,8 @@ const planetsData = [
                 distanza: "108.2 milioni di km dal Sole",
                 diametro: "12,104 km",
                 massa: "4.867 x 10^24 kg",
-                info: "Venere è il secondo pianeta dal Sole ed è simile alla Terra per dimensioni e composizione.",
-                curiosita: "Venere ruota all'indietro rispetto alla maggior parte degli altri pianeti del sistema solare."
+                info: "Venere è il secondo pianeta più vicino al Sole e il più caldo del sistema solare, nonostante non sia il più vicino alla nostra stella. Questa anomalia è dovuta alla sua densa atmosfera, composta principalmente da anidride carbonica, che crea un effetto serra così intenso da rendere la temperatura superficiale superiore a quella di Mercurio. La pressione atmosferica su Venere è circa 90 volte quella terrestre, equivalente a quella che si subirebbe a un chilometro di profondità negli oceani terrestri. A causa di queste condizioni estreme, la superficie di Venere è un luogo inospitale, caratterizzato da temperature elevatissime, una pressione schiacciante e piogge di acido solforico. Nonostante ciò, Venere è stato oggetto di numerose missioni spaziali, che hanno permesso di mappare la sua superficie e di studiare la sua geologia.",
+                curiosita: "Un aspetto curioso di Venere è la sua rotazione retrograda, ovvero ruota su se stessa in senso opposto rispetto alla maggior parte dei pianeti. Inoltre, la sua rotazione è estremamente lenta, tanto che un giorno venusiano dura più di un anno venusiano. Si ritiene che in passato Venere potesse essere un pianeta più simile alla Terra, con oceani e un'atmosfera più temperata. Tuttavia, un evento catastrofico, forse legato a un intenso vulcanismo, ha provocato un cambiamento climatico radicale, innalzando di moltissimo la temperatura del pianeta."
               }
     },
     {
@@ -66,8 +66,8 @@ const planetsData = [
                 distanza: "149.6 milioni di km dal Sole",
                 diametro: "12,742 km",
                 massa: "5.972 x 10^24 kg",
-                info: "La Terra è il terzo pianeta dal Sole e l'unico conosciuto per ospitare la vita.",
-                curiosita: "Circa il 71% della superficie terrestre è coperta da acqua."
+                info: "La Terra è il terzo pianeta del sistema solare e l'unico che, finora, sappiamo ospitare la vita. La sua superficie è in gran parte coperta da oceani, che le conferiscono quel caratteristico colore azzurro visto dallo spazio. L'atmosfera terrestre, composta principalmente da azoto e ossigeno, protegge la vita dalle radiazioni solari e regola il clima. La Terra è un pianeta dinamico, con una crosta terrestre suddivisa in placche tettoniche che si muovono lentamente. Questo movimento delle placche è responsabile dei terremoti, delle eruzioni vulcaniche e della formazione delle montagne. Il campo magnetico terrestre, generato dal movimento del ferro liquido nel nucleo esterno, ci protegge dal vento solare.",
+                curiosita: "Un aspetto affascinante della Terra è il ciclo dell'acqua, un processo continuo di evaporazione, condensazione e precipitazione che modella il nostro pianeta e rende possibile la vita. L'acqua è presente in tutte le sue forme: liquida negli oceani, nei laghi e nei fiumi, solida nei ghiacciai e allo stato gassoso nell'atmosfera. La Luna, il nostro unico satellite naturale, esercita una significativa influenza sulle maree terrestri e sulla durata del giorno. Si ritiene che la Luna si sia formata in seguito a una collisione tra la Terra e un corpo celeste delle dimensioni di Marte, miliardi di anni fa. La Terra è un pianeta estremamente complesso e ancora in gran parte da scoprire. Gli scienziati continuano a studiare i suoi oceani, l'atmosfera, il clima e la geologia, cercando di comprendere meglio i processi che lo governano e le sue origini."
               }
     },
     {
@@ -83,8 +83,8 @@ const planetsData = [
                 distanza: "227.9 milioni di km dal Sole",
                 diametro: "6,779 km",
                 massa: "6.39 x 10^23 kg",
-                info: "Marte è il quarto pianeta dal Sole e è noto come il pianeta rosso per il suo colore caratteristico.",
-                curiosita: "Marte ha la montagna più alta del sistema solare, il Monte Olimpo, alto circa 22 km."
+                info: "Marte, il quarto pianeta del sistema solare, spesso soprannominato il \"Pianeta Rosso\" per la sua caratteristica colorazione dovuta all'ossido di ferro presente nel suolo. Marte è un pianeta roccioso, più piccolo della Terra, con un'atmosfera sottile composta principalmente da anidride carbonica. La sua superficie presenta caratteristiche geologiche molto varie, tra cui vulcani estinti, canyon immensi e calotte polari. Il Monte Olimpo, il vulcano più grande del sistema solare, si trova proprio su Marte. A causa delle sue condizioni ambientali simili, in parte, a quelle terrestri, Marte è stato a lungo oggetto di speculazioni sulla possibile esistenza di forme di vita. Numerose missioni spaziali hanno esplorato il pianeta rosso, alla ricerca di tracce di acqua, un elemento fondamentale per la vita come la conosciamo. Le sonde hanno scoperto la presenza di ghiaccio d'acqua nelle calotte polari e sotto la superficie, aumentando le speranze di trovare un giorno tracce di vita passata o presente.",
+                curiosita: "Le due lune di Marte, Phobos e Deimos, sono piccoli corpi celesti di forma irregolare, probabilmente degli asteroidi catturati dalla gravità marziana. Le tempeste di sabbia sono un fenomeno comune su Marte, a volte così intense da avvolgere l'intero pianeta per settimane. Marte è un pianeta che ha affascinato l'umanità per secoli. È stato oggetto di innumerevoli opere di fantascienza e rappresenta una delle mete più ambite per l'esplorazione spaziale. Diverse agenzie spaziali, tra cui la NASA e SpaceX, stanno lavorando a missioni con equipaggio umano su Marte, con l'obiettivo di portare i primi astronauti sul Pianeta Rosso entro i prossimi decenni."
               }
     },
     {
@@ -100,8 +100,8 @@ const planetsData = [
                 distanza: "778.5 milioni di km dal Sole",
                 diametro: "139,820 km",
                 massa: "1.898 x 10^27 kg",
-                info: "Giove è il pianeta più grande del sistema solare e il quinto dal Sole.",
-                curiosita: "Giove ha almeno 79 lune, inclusa Ganimede, la più grande luna del sistema solare."
+                info: "Giove è il quinto pianeta in ordine di distanza dal Sole ed è di gran lunga il più grande del sistema solare. La sua massa è più del doppio di quella di tutti gli altri pianeti messi insieme, e la sua gravità è talmente intensa da influenzare le orbite dei pianeti più esterni. Giove è un gigante gassoso, composto principalmente da idrogeno ed elio, e non possiede una superficie solida. La sua atmosfera è caratterizzata da bande colorate e dalla famosa Grande Macchia Rossa, una tempesta anticiclonica più grande della Terra che imperversa da secoli. Il sistema di lune di Giove è uno dei più complessi del sistema solare. Tra le lune più importanti troviamo Io, Europa, Ganimede e Callisto, ognuna con caratteristiche uniche. Io è la luna vulcanicamente più attiva del sistema solare, mentre Europa è sospettata di avere un oceano liquido sotto la sua crosta ghiacciata, rendendola uno dei candidati più promettenti per la ricerca di vita extraterrestre.",
+                curiosita: "La magnetosfera di Giove è la più grande del sistema solare e intrappola particelle cariche provenienti dal Sole, creando intense aurore polari. Giove ha svolto un ruolo fondamentale nella formazione del sistema solare, agendo come una sorta di \"aspirapolvere cosmico\" che ha catturato gran parte del materiale presente nel disco protoplanetario."
               }
     },
     {
@@ -119,8 +119,8 @@ const planetsData = [
                 distanza: "1.434 miliardi di km dal Sole",
                 diametro: "116,460 km",
                 massa: "5.683 x 10^26 kg",
-                info: "Saturno è il sesto pianeta dal Sole e il secondo più grande del sistema solare.",
-                curiosita: "Saturno è noto per i suoi anelli estesi e complessi fatti principalmente di ghiaccio e polvere."
+                info: "Saturno è probabilmente il pianeta più riconoscibile del nostro sistema solare, grazie ai suoi spettacolari anelli composti da miliardi di particelle di ghiaccio e roccia. Questi anelli si estendono per migliaia di chilometri e sono visibili anche da telescopi amatoriali. Come Giove, Saturno è un gigante gassoso, composto principalmente da idrogeno ed elio. La sua atmosfera è caratterizzata da bande colorate e da tempeste, sebbene non intense come la Grande Macchia Rossa di Giove. La densità di Saturno è così bassa che, se posto in un oceano abbastanza grande, galleggerebbe!",
+                curiosita: "Il sistema di lune di Saturno è molto vasto e comprende decine di satelliti naturali, tra cui Titano, la seconda luna più grande del sistema solare. Titano è l'unico satellite ad avere un'atmosfera densa, composta principalmente da azoto e metano, e presenta caratteristiche geologiche simili alla Terra primordiale. Un altro satellite interessante di Saturno è Encelado, una piccola luna ghiacciata che presenta geyser che eruttano acqua e particelle di ghiaccio nello spazio. Si ritiene che sotto la crosta ghiacciata di Encelado possa esistere un oceano liquido, rendendolo un altro potenziale candidato per la ricerca di vita extraterrestre."
               }
     },
     {
@@ -138,8 +138,8 @@ const planetsData = [
                 distanza: "2.871 miliardi di km dal Sole",
                 diametro: "50,724 km",
                 massa: "8.681 x 10^25 kg",
-                info: "Urano è il settimo pianeta dal Sole ed è noto per la sua inclinazione assiale estrema.",
-                curiosita: "Urano ruota su un fianco, con un'inclinazione assiale di 97.77 gradi rispetto al piano della sua orbita."
+                info: "Urano è un pianeta davvero unico nel nostro sistema solare. A differenza degli altri giganti gassosi, Giove e Saturno, Urano è classificato come un \"gigante ghiacciato\", insieme a Nettuno. Ciò significa che, nonostante sia composto principalmente da gas, contiene anche una grande quantità di ghiaccio d'acqua, metano e ammoniaca, che gli conferiscono un colore azzurro caratteristico. Una delle caratteristiche più singolari di Urano è la sua rotazione: è infatti inclinato su un fianco, con un angolo di circa 98 gradi rispetto al piano dell'orbita. Questo significa che Urano ruota \"rotolando\" attorno al Sole, un po' come una palla da bowling. Si pensa che questa insolita inclinazione sia dovuta a una collisione con un oggetto di grandi dimensioni avvenuta miliardi di anni fa.",
+                curiosita: "Anche Urano possiede un sistema di anelli, sebbene siano molto meno spettacolari di quelli di Saturno. Inoltre, ha numerose lune, alcune delle quali presentano caratteristiche geologiche molto interessanti. L'atmosfera di Urano è estremamente fredda e ventosa, con tempeste che raggiungono velocità incredibili. La sua composizione chimica, ricca di metano, contribuisce al suo colore azzurro. A causa della sua grande distanza dal Sole, Urano è un pianeta molto freddo e poco studiato. Tuttavia, le missioni spaziali hanno fornito importanti informazioni sulla sua composizione e sulla sua storia."
               }
     },
     {
@@ -157,8 +157,8 @@ const planetsData = [
                 distanza: "4.495 miliardi di km dal Sole",
                 diametro: "49,244 km",
                 massa: "1.024 x 10^26 kg",
-                info: "Nettuno è l'ottavo pianeta dal Sole ed è noto per i suoi venti estremamente forti.",
-                curiosita: "Nettuno è l'unico pianeta del sistema solare non visibile ad occhio nudo."
+                info: "Nettuno, insieme a Urano, fa parte della categoria dei \"giganti ghiacciati\". Nonostante il nome, la sua composizione è principalmente costituita da gas, ma contiene anche una grande quantità di ghiaccio d'acqua, metano e ammoniaca, che gli conferiscono il caratteristico colore blu intenso. Nettuno è un pianeta estremamente ventoso, con tempeste che raggiungono velocità superiori a quelle dei venti terrestri. La sua famosa Grande Macchia Scura, una tempesta anticiclonica simile alla Grande Macchia Rossa di Giove, è stata osservata dal Voyager 2 nel 1989, ma è scomparsa in immagini successive. Gli scienziati ritengono che queste tempeste siano comuni su Nettuno, ma che abbiano una durata relativamente breve.",
+                curiosita: "L'orbita di Nettuno è molto ellittica e inclinata rispetto al piano dell'eclittica, il che lo rende il pianeta con l'orbita più eccentrica tra i giganti gassosi. Inoltre, Nettuno ha un sistema di anelli, sebbene siano molto più sottili e meno visibili rispetto a quelli di Saturno. Nettuno possiede numerose lune, tra cui Tritone, la più grande e la più interessante. Tritone ha un'orbita retrograda, il che suggerisce che in passato potrebbe essere stato un oggetto catturato dalla gravità di Nettuno. La sua superficie è caratterizzata da geyser che eruttano azoto liquido, creando un'atmosfera sottile. A causa della sua grande distanza dal Sole, Nettuno è un pianeta molto freddo e oscuro. Nonostante ciò, le missioni spaziali hanno fornito importanti informazioni sulla sua composizione, sulla sua atmosfera e sul suo sistema di lune."
               }
     },
     {
@@ -174,8 +174,8 @@ const planetsData = [
                 distanza: "5.906 miliardi di km dal Sole",
                 diametro: "2,377 km",
                 massa: "1.309 x 10^22 kg",
-                info: "Plutone è un pianeta nano nel sistema solare, un tempo considerato il nono pianeta.",
-                curiosita: "Plutone ha cinque lune conosciute, la più grande delle quali è Caronte."
+                info: "Plutone, scoperto nel 1930, è stato a lungo considerato il nono pianeta del Sistema Solare. Tuttavia, nel 2006, l'Unione Astronomica Internazionale ha riclassificato Plutone come \"pianeta nano\", una nuova categoria di oggetti celesti che orbitano attorno al Sole ma non soddisfano tutti i criteri per essere considerati pianeti. Plutone si trova nella Fascia di Kuiper, una regione del Sistema Solare oltre l'orbita di Nettuno, popolata da numerosi corpi celesti ghiacciati. La sua orbita è molto eccentrica e inclinata rispetto al piano dell'eclittica, il che significa che a volte si avvicina più al Sole di Nettuno. Plutone è un mondo piccolo e ghiacciato, con una superficie variegata che presenta montagne, pianure e crateri. La sua atmosfera è molto tenue e composta principalmente da azoto, metano e monossido di carbonio.",
+                curiosita: "Una delle caratteristiche più interessanti di Plutone è il suo grande satellite, Caronte. Caronte è così grande rispetto a Plutone che i due corpi celesti sono spesso considerati un sistema binario. La missione della sonda New Horizons della NASA, che ha sorvolato Plutone nel 2015, ha rivoluzionato la nostra comprensione di questo mondo lontano. Le immagini inviate dalla sonda hanno rivelato un pianeta nano geologicamente attivo, con montagne ghiacciate, pianure lisce e una vasta regione ghiacciata a forma di cuore."
               }
     }
 ];
