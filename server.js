@@ -8,7 +8,7 @@ const session = require('express-session');
 app.use(express.json());
 
 app.use(session({
-    secret: '1234',
+    secret: '4q4bxnzf9438fozfhn384',
     resave: false,
     saveUninitialized: true,
 }));
