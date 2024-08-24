@@ -1,14 +1,14 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const port = 3000;
+const port = process.env.port || 3000;
 const connection = require('./db.js');
 const session = require('express-session');
 
 app.use(express.json());
 
 app.use(session({
-    secret: '1234',
+    secret: '4q4bxnzf9438fozfhn384',
     resave: false,
     saveUninitialized: true,
 }));
@@ -237,6 +237,6 @@ app.post('/update-score', (req, res) => {
 });
 
 
-app.listen(process.env.port || port, () => {
-    console.log(`Server in ascolto su http://localhost:${port}`);
+app.listen(port, () => {
+    console.log('Server in ascolto');
 });
