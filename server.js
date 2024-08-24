@@ -238,5 +238,5 @@ app.post('/update-score', (req, res) => {
 
 
 app.listen(port, () => {
-    console.log(`Server in ascolto su http://localhost:${port}`);
+    console.log('Server in ascolto');
 });
