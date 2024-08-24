@@ -154,9 +154,15 @@ app.get('/current-user', (req, res) => {
     res.json({ userId: req.session.userId });
 });
 
+let lastQuestions = []; // Memorizza le ultime 10 domande
+
 app.get('/random-question', (req, res) => {
+    // Costruisci una lista di ID delle domande da escludere
+    const excludeIds = lastQuestions.length ? lastQuestions.map(q => q.id_domanda) : [-1]; // [-1] se la lista è vuota
+
     connection.query(
-        'SELECT * FROM domande ORDER BY RAND() LIMIT 1',
+        'SELECT * FROM domande WHERE id_domanda NOT IN (?) ORDER BY RAND() LIMIT 1',
+        [excludeIds],
         (error, questionResults) => {
             if (error) {
                 return res.status(500).json({ error: 'Errore durante il recupero della domanda' });
@@ -166,6 +172,12 @@ app.get('/random-question', (req, res) => {
             }
 
             const question = questionResults[0];
+
+            // Aggiungi la domanda estratta alla lista delle ultime domande
+            lastQuestions.push(question);
+            if (lastQuestions.length > 10) {
+                lastQuestions.shift(); // Rimuovi la più vecchia se la lista supera le 10 domande
+            }
 
             connection.query(
                 'SELECT * FROM risposte WHERE id_domanda = ?',
@@ -183,6 +195,7 @@ app.get('/random-question', (req, res) => {
         }
     );
 });
+
 
 app.post('/update-score', (req, res) => {
     if (!req.session.userId) {

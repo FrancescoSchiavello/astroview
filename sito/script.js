@@ -91,7 +91,7 @@ const planetsData = [
         name: 'jupiter', 
         texture: 'img/jupiter.jpg', 
         width: 6, 
-        rotationSpeed: 0.00241, 
+        rotationSpeed: 0.00141, 
         orbitSpeed: 0.00000823, 
         position: { x: 18, y: 0, z: 0 },
         data: {
@@ -191,18 +191,162 @@ const moonsData = [
         position: { x: 5, y: 0, z: 0 },
         data: {
                 nome: "Luna",
-                foto: "img_info/moon.jpg",
-                distanza: "384,400 km dalla Terra",
-                diametro: "123",
-                massa: "7.342 x 10^22 kg",
-                info: "La Luna è l'unico satellite naturale della Terra ed è il quinto satellite naturale più grande del sistema solare.",
-                curiosita: "La Luna ha un'influenza significativa sulle maree terrestri a causa della sua forza gravitazionale."
+                foto: "",
+                distanza: "",
+                diametro: "",
+                massa: "",
+                info: "",
+                curiosita: ""
               }
-    }
+    },
+    {
+        name: 'phobos',
+        texture: 'img/moon.jpg',
+        width: 0.5,
+        rotationSpeed: 0.00027,
+        orbitSpeed: 0.0004,
+        parent: 'mars',
+        position: { x: 5, y: 0, z: 0 },
+        data: {
+                nome: "Fobos",
+                foto: "",
+                distanza: "",
+                diametro: "",
+                massa: "",
+                info: "",
+                curiosita: ""
+              }
+    },
+    {
+        name: 'deimos',
+        texture: 'img/deimos.jpg',
+        width: 0.5,
+        rotationSpeed: 0.00027,
+        orbitSpeed: 0.00027,
+        parent: 'mars',
+        position: { x: 8, y: 0, z: 0 },
+        data: {
+                nome: "Deimos",
+                foto: "",
+                distanza: "",
+                diametro: "",
+                massa: "",
+                info: "",
+                curiosita: ""
+              }
+    },
+    {
+        name: 'io',
+        texture: 'img/io.jpg',
+        width: 0.5,
+        rotationSpeed: 0.00027,
+        orbitSpeed: 0.0002,
+        parent: 'jupiter',
+        position: { x: 10, y: 0, z: 0 },
+        data: {
+                nome: "Io",
+                foto: "",
+                distanza: "",
+                diametro: "",
+                massa: "",
+                info: "",
+                curiosita: ""
+              }
+    },
+    {
+        name: 'europa',
+        texture: 'img/europa.jpg',
+        width: 0.5,
+        rotationSpeed: 0.00027,
+        orbitSpeed: 0.00015,
+        parent: 'jupiter',
+        position: { x: 12, y: 0, z: 0 },
+        data: {
+                nome: "Europa",
+                foto: "",
+                distanza: "",
+                diametro: "",
+                massa: "",
+                info: "",
+                curiosita: ""
+              }
+    },
+    {
+        name: 'ganymede',
+        texture: 'img/ganimede.jpg',
+        width: 0.5,
+        rotationSpeed: 0.00027,
+        orbitSpeed: 0.000010,
+        parent: 'jupiter',
+        position: { x: 14, y: 0, z: 0 },
+        data: {
+                nome: "Ganimede",
+                foto: "",
+                distanza: "",
+                diametro: "",
+                massa: "",
+                info: "",
+                curiosita: ""
+              }
+    },
+    {
+        name: 'callisto',
+        texture: 'img/callisto.jpg',
+        width: 0.5,
+        rotationSpeed: 0.00027,
+        orbitSpeed: 0.00005,
+        parent: 'jupiter',
+        position: { x: 16, y: 0, z: 0 },
+        data: {
+                nome: "Callisto",
+                foto: "",
+                distanza: "",
+                diametro: "",
+                massa: "",
+                info: "",
+                curiosita: ""
+              }
+    },
+    {
+        name: 'titan',
+        texture: 'img/titan.jpg',
+        width: 0.5,
+        rotationSpeed: 0.00027,
+        orbitSpeed: 0.0001,
+        parent: 'saturn',
+        position: { x: 15, y: 0, z: 0 },
+        data: {
+                nome: "Titano",
+                foto: "",
+                distanza: "",
+                diametro: "",
+                massa: "",
+                info: "",
+                curiosita: ""
+              }
+    },
+    {
+        name: 'charon',
+        texture: 'img/titan.jpg',
+        width: 0.8,
+        rotationSpeed: 0.00027,
+        orbitSpeed: 0.00022,
+        parent: 'pluto',
+        position: { x: 5, y: 0, z: 0 },
+        data: {
+                nome: "Caronte",
+                foto: "",
+                distanza: "",
+                diametro: "",
+                massa: "",
+                info: "",
+                curiosita: ""
+              }
+    },
+    
 ];
 
 const textureLoader = new THREE.TextureLoader();
-
 
 // Crea una scena
 const scene = new THREE.Scene();
@@ -329,7 +473,7 @@ function addOrbitingPlanet(planetData) {
             const ring = new THREE.Mesh(ringGeometry, ringMaterial);
 
             ring.position.set(orbitRadius, position.y, position.z);
-            ring.rotation.set(rotation + THREE.MathUtils.degToRad(90), THREE.MathUtils.degToRad(30), 0);
+            ring.rotation.set( THREE.MathUtils.degToRad(90), THREE.MathUtils.degToRad(15), 0);
             pivot.add(ring);
         }
 
@@ -456,9 +600,10 @@ window.addEventListener('mousemove', (event) => {
 
         // Trova il pianeta o la luna sotto il cursore
         let target = planets.find(planet => planet.mesh === intersectedObject);
-        if (!target) {
+
+        /*if (!target) {
             target = moons.find(moon => moon.mesh === intersectedObject);
-        }
+        }*/
 
         if (target) {
             // Cambia il cursore in pointer
