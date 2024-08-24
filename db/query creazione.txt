@@ -1,0 +1,25 @@
+create database if not exists astroview;
+use astroview;
+
+create table if not exists utenti(
+  id_utente INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    cognome VARCHAR(255) NOT NULL,
+    nome_utente VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_utente VARCHAR(255) NOT NULL,
+  punti_max INT default  0
+);
+
+CREATE TABLE IF NOT EXISTS domande (
+    id_domanda INT AUTO_INCREMENT PRIMARY KEY,
+    testo_domanda TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS risposte (
+    id_risposta INT AUTO_INCREMENT PRIMARY KEY,
+    id_domanda INT NOT NULL,
+    testo_risposta TEXT NOT NULL,
+    is_correct BOOLEAN NOT NULL,
+    FOREIGN KEY (id_domanda) REFERENCES domande(id_domanda)
+);
