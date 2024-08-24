@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node nome_del_tuo_file_server.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
