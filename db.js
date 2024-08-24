@@ -3,6 +3,7 @@ var connection
 
 if (process.env.JAWSDB_URL) {
 
+
   const dbUrl = process.env.JAWSDB_URL;
   const dbConfig = new URL(dbUrl);
   connection = mysql.createConnection({
