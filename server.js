@@ -13,7 +13,7 @@ app.use(session({
     saveUninitialized: true,
 }));
 
-app.use(express.static(path.join(__dirname, 'sito')));
+app.use(express.static(path.join(__dirname)));
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 
 const checkAuth = (req, res) => {
@@ -27,7 +27,7 @@ const checkAuth = (req, res) => {
 app.get('/check-auth', checkAuth);
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'sito', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.post('/login', (req, res) => {
