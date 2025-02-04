@@ -650,10 +650,10 @@ function onMouseClick(event) {
 
         // Trova il pianeta o la luna cliccata
         let target = planets.find(planet => planet.mesh === intersectedObject);
-        if (!target) {
+ /*        if (!target) {
             target = moons.find(moon => moon.mesh === intersectedObject);
         }
-
+ */
         if (target) {
             // Posiziona la telecamera sull'oggetto cliccato
             const targetPosition = new THREE.Vector3();
